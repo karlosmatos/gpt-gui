@@ -1,5 +1,4 @@
 import os
-import json
 import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -8,10 +7,11 @@ load_dotenv()
 
 # Constants
 API_KEY = os.getenv('OPENAI_API_KEY')  # Replace with your API key
-MODEL_MAPPING = {
-    'gpt-3.5-turbo-1106': 'gpt-3.5-turbo-1106',
-    'gpt-4-1106-preview': 'gpt-4-1106-preview'
-}
+MODEL_MAPPING = [
+    'gpt-3.5-turbo-1106',
+    'gpt-4-1106-preview'
+    ]
+
 COST_PER_TOKEN = {
     'gpt-3.5-turbo-1106': {
         'prompt': 0.001 / 1000,
@@ -63,10 +63,9 @@ class WizardChat:
 
     def generate_response(self, prompt, model_name):
         st.session_state['messages'].append({'role': 'user', 'content': prompt})
-        model = MODEL_MAPPING[model_name]
 
         completion = self.client.chat.completions.create(
-            model=model,
+            model=model_name,
             messages=st.session_state['messages'],
             temperature=0,
         )
@@ -95,8 +94,7 @@ class WizardChat:
     def chat_demo(self):
         st.markdown('# Chat', unsafe_allow_html=True)
 
-        st.sidebar.text_input('Conversation Name', key='conversation_name')
-        model_name = st.sidebar.radio('Choose a model:', list(MODEL_MAPPING.keys()))
+        model_name = st.sidebar.radio('Choose a model:', list(MODEL_MAPPING))
         counter_placeholder = st.sidebar.empty()
         counter_placeholder.write(f"Total cost of this conversation: ${st.session_state['total_cost']:.5f}")
         if st.sidebar.button('Clear Conversation', key='clear'):
