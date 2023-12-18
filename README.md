@@ -2,6 +2,10 @@
 
 GPT-GUI is a Python application that provides a graphical user interface for interacting with OpenAI's GPT models. It uses the Streamlit library for the UI and the OpenAI API for generating responses.
 
+
+https://github.com/karlosmatos/gpt-gui/assets/105454484/5a965fac-8fec-433c-8634-3f3396c1a549
+
+
 ## Installation
 
 1. Clone the repository and move to the project directory.
