@@ -2,38 +2,18 @@ import os
 import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
-from typing import Tuple, Dict, Any
+from typing import Tuple, Any
+from config import MODEL_MAPPING, COST_PER_TOKEN, DEFAULT_MESSAGES
 
 load_dotenv()
 
 class GPTChat:
-    # Class-level constants
-    MODEL_MAPPING = [
-        'gpt-3.5-turbo-1106',
-        'gpt-4-1106-preview'
-    ]
-
-    COST_PER_TOKEN = {
-        'gpt-3.5-turbo-1106': {
-            'prompt': 0.001 / 1000,
-            'completion': 0.002 / 1000
-        },
-        'gpt-4-1106-preview': {
-            'prompt': 0.01 / 1000,
-            'completion': 0.03 / 1000
-        }
-    }
-
-    DEFAULT_MESSAGES = [
-        {
-            'role': 'system',
-            'content': "You are Senior Python Software Developer."
-        }
-    ]
-
     def __init__(self, api_key: str):
         st.set_page_config(page_title='Chat', page_icon='💬')
         self.client = OpenAI(api_key=api_key)
+        self.MODEL_MAPPING = MODEL_MAPPING
+        self.COST_PER_TOKEN = COST_PER_TOKEN
+        self.DEFAULT_MESSAGES = DEFAULT_MESSAGES
         self.initialize_session_state()
 
     def initialize_session_state(self):
